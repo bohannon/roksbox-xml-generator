@@ -114,6 +114,8 @@ def WriteMovieInfo(OutFile, filename, dirname, moviexmlfile):
    mov = None   
    if filename[-4:] == ".m4v":
       mov = FindVideo(filename[:-4])
+   elif filename[-4:] == ".mp4":
+      mov = FindVideo(filename[:-4])
    else:
       print "not a movie"
       return
