@@ -9,6 +9,7 @@ except ImportError:
    sys.exit(1)
    
 #The file extensions that this script will consider movies.  It will ignore anything else
+#add to the list if you need to.
 movie_file_extensions = {'.m4v', '.mp4', '.mkv'}
 
 def SearchMovies(Name, MovDB):
@@ -263,15 +264,18 @@ def MoviesinDirWrite(XMLFile, dirname, names, filename):
    print "MID: " + filename
    if os.path.isdir(filename):
       print "ERROR: MID got a directory!"
-
-   #filelist = os.listdir(dirname)
-   #for filename in filelist:
+      return
+   #if it's not a movie, return
    if filename[-4:] not in movie_file_extensions:
       return
+   
    xmlfilename = dirname + "/" + filename[:-3] + "xml"
    print xmlfilename
    if os.path.exists(xmlfilename):
       print "XML file exists"
+      #we don't want to create a new xml file for the movie,
+      # but we are also creating the master xml file,
+      #so copy the existing one into the master xml file
       CopyMovieInfo(XMLFile, xmlfilename)
    else:
       tempmoviefile = open(xmlfilename, "w")
@@ -280,18 +284,10 @@ def MoviesinDirWrite(XMLFile, dirname, names, filename):
 
 
 def ProcessDirectory(XMLFile, dirname, names):
-   #filelist = os.listdir(dirname)
-
-   #print names
-#   print "PD: " + str(filelist)
-   #print "PD: " + dirname
+   
    for entry in names:
-      #print "PD: entry: " + entry
-      #if os.path.isdir(entry):
-         #os.path.walk(dirname + "/" + entry, ProcessDirectory, XMLFile)
-      #   ProcessDirectory(XMLFile, dirname + "/" + entry, names)
-      #else:
       MoviesinDirWrite(XMLFile, dirname, names, entry)
+
 
 
 
