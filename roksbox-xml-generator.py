@@ -7,6 +7,9 @@ try:
 except ImportError:
    print "Imdpy package not found, please install (http://imdpy.sourceforge.net)!"
    sys.exit(1)
+   
+#The file extensions that this script will consider movies.  It will ignore anything else
+movie_file_extensions = {'.m4v', '.mp4', '.mkv'}
 
 def SearchMovies(Name, MovDB):
    movies = MovDB.search_movie(Name)
@@ -112,9 +115,7 @@ def WriteMovieInfo(OutFile, filename, dirname, moviexmlfile):
    
 
    mov = None   
-   if filename[-4:] == ".m4v":
-      mov = FindVideo(filename[:-4])
-   elif filename[-4:] == ".mp4":
+   if filename[-4:] in movie_file_extensions:
       mov = FindVideo(filename[:-4])
    else:
       print "not a movie"
@@ -265,7 +266,7 @@ def MoviesinDirWrite(XMLFile, dirname, names, filename):
 
    #filelist = os.listdir(dirname)
    #for filename in filelist:
-   if filename[-4:] != ".m4v":
+   if filename[-4:] not in movie_file_extensions:
       return
    xmlfilename = dirname + "/" + filename[:-3] + "xml"
    print xmlfilename
