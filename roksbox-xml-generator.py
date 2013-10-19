@@ -5,7 +5,7 @@ try:
    from imdb import IMDb, IMDbError
 
 except ImportError:
-   print "Imdpy package not found, please install (http://imdpy.sourceforge.net)!"
+   print "Imdpy package not found, please install (https://github.com/alberanid/imdbpy)!"
    sys.exit(1)
    
 #The file extensions that this script will consider movies.  It will ignore anything else
