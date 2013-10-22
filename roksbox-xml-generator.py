@@ -1,5 +1,6 @@
 import os, unicodedata
-#Bruce 
+import argparse
+
 try:
 
    from imdb import IMDb, IMDbError
@@ -11,6 +12,8 @@ except ImportError:
 #The file extensions that this script will consider movies.  It will ignore anything else
 #add to the list if you need to.
 movie_file_extensions = {'.m4v', '.mp4', '.mkv'}
+
+replace_xml = False
 
 def SearchMovies(Name, MovDB):
    movies = MovDB.search_movie(Name)
@@ -271,7 +274,7 @@ def MoviesinDirWrite(XMLFile, dirname, names, filename):
    
    xmlfilename = dirname + "/" + filename[:-3] + "xml"
    print xmlfilename
-   if os.path.exists(xmlfilename):
+   if (os.path.exists(xmlfilename)) and (replace_xml == False):
       print "XML file exists"
       #we don't want to create a new xml file for the movie,
       # but we are also creating the master xml file,
@@ -290,6 +293,13 @@ def ProcessDirectory(XMLFile, dirname, names):
 
 
 
+parser = argparse.ArgumentParser(description='Generates XML Files for Roksbox')
+parser.add_argument("--replacexml", help="Replaces all existing xml files as well as generate new ones",action="store_true")
+args = parser.parse_args()
+
+if args.replacexml:
+   print "Replacing xml"
+   replace_xml = True
 
 XMLFile = open("Videos.xml", "w")
 XMLFile.write("<xml>\n")
